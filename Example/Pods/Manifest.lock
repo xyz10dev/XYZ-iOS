@@ -1,0 +1,23 @@
+PODS:
+  - Kiwi (3.0.0)
+  - XYZ (0.1.0)
+
+DEPENDENCIES:
+  - Kiwi
+  - XYZ (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Kiwi
+
+EXTERNAL SOURCES:
+  XYZ:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Kiwi: fbeafef0f00e4d8f7dcb3420a4930afe70af77f7
+  XYZ: 8542a03f81c7b47c79ef84247fa5adc3cc0daa4a
+
+PODFILE CHECKSUM: dc2d927457868920b62befa9f4a3f26e0a4d75f5
+
+COCOAPODS: 1.8.1
