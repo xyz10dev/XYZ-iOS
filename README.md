@@ -14,7 +14,7 @@
 在Podfile文件中添加以下代码：
 
 ```
-pod 'XYZ', '~> 0.1.0'
+pod 'DangwuSDK', '~> 0.1.0'
 ```
 
 保存并执行pod install命令，然后用后缀为`.xworkspace`的文件打开工程。
@@ -24,7 +24,7 @@ pod 'XYZ', '~> 0.1.0'
 
 打开系统定位服务，在info.plist文件中添加`NSLocationAlwaysAndWhenInUseUsageDescription`和`NSLocationWhenInUseUsageDescription`。
 
-在AppDelegate中引入`#import <XYZ/XYZLocationManager.h>`，并在didFinishLaunchingWithOptions方法中设置appKey。
+在AppDelegate中引入`#import <DangwuSDK/XYZLocationManager.h>`，并在didFinishLaunchingWithOptions方法中设置appKey。
 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
