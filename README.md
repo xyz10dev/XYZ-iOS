@@ -14,7 +14,7 @@
 在Podfile文件中添加以下代码：
 
 ```
-pod 'DangwuSDK', '~> 0.1.0'
+pod 'DangwuSDK', '~> 1.0.0'
 ```
 
 保存并执行pod install命令，然后用后缀为`.xworkspace`的文件打开工程。
