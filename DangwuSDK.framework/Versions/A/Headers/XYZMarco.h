@@ -9,12 +9,7 @@
 #define XYZMarco_h
 
 static NSString * const kXYZToken = @"kXYZToken";
-
-#if DEBUG
-#define XYZLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#define XYZLog(fmt, ...) while(0){}
-#endif
+static NSString * const kXYZAppkey = @"kXYZAppkey";
 
 // 屏幕宽高
 #define kXYZScreenWidth ([UIScreen mainScreen].bounds.size.width)
