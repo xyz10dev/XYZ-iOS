@@ -11,6 +11,11 @@
 static NSString * const kXYZToken = @"kXYZToken";
 static NSString * const kXYZAppkey = @"kXYZAppkey";
 
+typedef NS_ENUM(NSUInteger, XYZFollowMode) {
+    XYZFollowModePosition,
+    XYZFollowModeNavigation,
+    XYZFollowModePoi,
+};
 // 屏幕宽高
 #define kXYZScreenWidth ([UIScreen mainScreen].bounds.size.width)
 #define kXYZScreenHeight ([UIScreen mainScreen].bounds.size.height)

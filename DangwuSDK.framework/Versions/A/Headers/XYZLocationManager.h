@@ -10,6 +10,10 @@
 #import "XYZFloorInfo.h"
 #import "XYZSiteInfo.h"
 #import "XYZLocation.h"
+#import "XYZPoisNotify.h"
+#import "XYZPoiEventNotify.h"
+#import "XYZMarco.h"
+#import "XYZUserActsNotify.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *appKey;
 @property (nonatomic, weak) id <XYZLocationManagerDelegate> _Nullable delegate;
-@property (nonatomic, nullable, copy) NSString *floorId;
+@property (nonatomic, copy) NSDictionary *navPathDictionary;
+
+/**
+ 初值设置
+ 定位开始之前，可以设置初始值
+ */
+@property (nonatomic, copy) NSString *siteId;
+@property (nonatomic, copy) NSString *floorId;
 @property (nonatomic, assign) CGPoint coordinate;
 
 /**
@@ -27,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return XYZLocationManager单例
  */
-+ (instancetype _Nonnull)defaultManager;
++ (instancetype)defaultManager;
 
 /**
  开始请求定位
  */
-- (void)startUpdatingLocation;
+- (void)startUpdatingLocationWithMode:(XYZFollowMode)mode;
 
 /**
  结束请求定位
@@ -42,24 +53,34 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设备id
  */
-+ (NSString *_Nullable)deviceId;
++ (NSString *)deviceId;
 
 /**
  本次定位的traceid
 
  @return traceid
  */
-- (NSString * _Nullable)currentTraceId;
+- (NSString *)currentTraceId;
 
 
 #pragma mark - 服务器交互
 
 /**
- 手动设置场馆
+ 定位过程中，手动设置场馆
 
  @param siteId 场馆id
  */
-- (void)manualSetSite:(NSString * _Nullable)siteId;
+- (void)manualSetSite:(NSString *)siteId;
+
+- (void)sendNavPath:(NSDictionary *)navPathDictionary;
+
+
+/**
+ 定位过程中，手动设置楼层
+ 
+ @param floorId floorId
+ */
+- (void)manualSetFloor:(NSString *)floorId;
 
 
 /**
@@ -72,14 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 手动设置楼层
-
- @param floorId floorId
- */
-- (void)manualSetFloor:(NSString *_Nullable)floorId;
-
-
-/**
  获取楼层信息
 
  @param floorId 楼层id
@@ -89,9 +102,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 自动设置楼层
+ 定位过程中，自动设置楼层
  */
 - (void)autoSetFloor;
+
+
+/**
+ 获取当前位置附近的Poi列表
+
+ @param siteId 场馆id
+ @param callback Poi列表，错误信息
+ */
+- (void)getPoiListWithSiteId:(NSString *)siteId
+                    callback:(void (^)(XYZPoisNotify *, NSError *))callback;
+
+/**
+ 离线到店分析：开始采集数据
+
+ @param siteId 场馆ID
+ @param callback iBeacon扫描异常回调
+ */
+- (void)startTrackWithSiteId:(NSString *)siteId callback:(void (^)(NSError *))callback;
+
+
+/**
+ 离线到店分析：结束采集数据，上传数据用于数据分析，请求分析结果
+
+ @param callback 到店分析结果回调
+ */
+- (void)stopTrackWithBlock:(void (^)(XYZPoiEventNotify *, NSError *))callback;
 
 @end
 
@@ -101,6 +140,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol XYZLocationManagerDelegate <NSObject>
 @optional
+
+- (void)didGetTraceID:(NSString *)traceID;
 /**
  服务器发送notify类型的数据包时会调用
  
@@ -115,6 +156,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)didEnterFloorId:(nonnull NSString *)floorId;
 
+
+/// 检测到用户的进店和离店事件时会调用该方法
+/// @param notify 进店、离店事件
+- (void)didDetectedUserAct:(XYZUserActsNotify *)notify;
 
 /**
  error

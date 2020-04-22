@@ -9,8 +9,3 @@
 #import <UIKit/UIKit.h>
 
 #import "XYZLocationManager.h"
-
-
-#ifdef DEBUG
-
-#endif
